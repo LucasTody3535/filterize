@@ -1,0 +1,93 @@
+body,
+#app {
+    height: 100%;
+    width: 100%;
+}
+
+canvas {
+    display: block;
+}
+
+body,
+body * {
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+.clickable-button {
+    position: fixed;
+    width: 150px;
+    height: 50px;
+    color: black;
+
+    background: white;
+    border-radius: 10px;
+    border: 1px solid rgba(0, 0, 0, 0.5);
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+}
+
+.clickable-button:hover,
+#filter-options button:hover {
+    transition: all ease-in-out 0.3s;
+    border: 1px solid black;
+    color: black;
+}
+
+#img-loader-trigger {
+    right: 2%;
+    top: 20px;
+}
+
+#img-downloader {
+    right: 14%;
+    top: 20px;
+}
+
+#filter-button {
+    right: 26%;
+    top: 20px;
+}
+
+#img-loader-container {
+    display: none;
+}
+
+#filter-options {
+    height: 200px;
+    width: 300px;
+    display: none;
+
+    right: calc(15% + 75px);
+    top: 80px;
+
+    position: fixed;
+    overflow-y: scroll;
+    scrollbar-width: none;
+
+    background: white;
+    border-radius: 10px;
+    border: 1px solid rgba(0, 0, 0, 0.5);
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+}
+
+#filter-options.visible {
+    display: block;
+}
+
+#filter-options button {
+    display: block;
+    width: 250px;
+    height: 35px;
+    margin-bottom: 10px !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+}
+
+#filter-options button:first-of-type {
+    margin-top: 10px !important;
+}

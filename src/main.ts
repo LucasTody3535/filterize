@@ -1,0 +1,194 @@
+import { CanvasController } from "./core/canvas-controller/CanvasController";
+import { BlueFilter } from "./core/filters/component-selection/BlueFilter";
+import { DesaturateFilter } from "./core/filters/pixel-modification/DesaturateFilter";
+import { GrayscaleFilter } from "./core/filters/pixel-modification/GrayscaleFilter";
+import { GreenFilter } from "./core/filters/component-selection/GreenFilter";
+import { NegativeFilter } from "./core/filters/pixel-modification/NegativeFilter";
+import { RedFilter } from "./core/filters/component-selection/RedFilter";
+import { SepiaFilter } from "./core/filters/pixel-modification/SepiaFilter";
+import { ThresholdFilter } from "./core/filters/pixel-modification/ThresholdFilter";
+import { ImageLoader } from "./core/img-loader/ImageLoader";
+import type { IFilter } from "./interfaces/filter/IFilter";
+import "./style.css";
+import { ErrorUtils } from "./utils/ErrorUtils";
+import { RedAndGreenFilter } from "./core/filters/component-selection/RedAndGreenFilter";
+import { RedAndBlueFilter } from "./core/filters/component-selection/RedAndBlueFilter";
+import { GreenAndBlueFilter } from "./core/filters/component-selection/GreenAndBlueFilter";
+
+const imgLoaderTrigger = document.getElementById("img-loader-trigger");
+const imgLoaderContainer = document.getElementById(
+    "img-loader-container",
+) as HTMLInputElement;
+const canvas = document.getElementById("img-container") as HTMLCanvasElement;
+const filterButton = document.getElementById("filter-button");
+const filterOptions = document.getElementById("filter-options");
+
+const downloadBtn = document.getElementById("img-downloader");
+const link = document.createElement("a");
+
+type FilterNames =
+    | "grayscale"
+    | "sepia"
+    | "threshold"
+    | "red"
+    | "blue"
+    | "green"
+    | "desaturate"
+    | "negative"
+    | "red&green"
+    | "red&blue"
+    | "green&blue";
+const filters = new Map<FilterNames, IFilter>();
+
+let context: CanvasRenderingContext2D | undefined;
+let imgLoader: ImageLoader | undefined;
+let didThrowError: boolean;
+let canvasController: CanvasController;
+let imgFile: File;
+
+window.addEventListener("DOMContentLoaded", (_) => {
+    context = canvas.getContext("2d")!;
+    canvasController = new CanvasController(context, canvas);
+
+    canvas.width = 0;
+    canvas.height = 0;
+
+    filters.set("grayscale", new GrayscaleFilter(0.299, 0.587, 0.114));
+    filters.set(
+        "sepia",
+        new SepiaFilter(
+            { forRed: 0.393, forGreen: 0.769, forBlue: 0.189 },
+            { forRed: 0.349, forGreen: 0.686, forBlue: 0.168 },
+            { forRed: 0.272, forGreen: 0.534, forBlue: 0.131 },
+        ),
+    );
+    filters.set("threshold", new ThresholdFilter(128));
+    filters.set("red", new RedFilter());
+    filters.set("green", new GreenFilter());
+    filters.set("blue", new BlueFilter());
+    filters.set("desaturate", new DesaturateFilter());
+    filters.set("negative", new NegativeFilter());
+    filters.set("red&green", new RedAndGreenFilter());
+    filters.set("red&blue", new RedAndBlueFilter());
+    filters.set("green&blue", new GreenAndBlueFilter());
+
+    // Configure image loader
+    imgLoaderContainer!.addEventListener("change", (_) => {
+        imgFile = imgLoaderContainer.files?.item(0) as File;
+        const onImageLoad = (image: HTMLImageElement) =>
+            canvasController.fillCanvas(image);
+        // Check if file is valid
+        didThrowError = ErrorUtils.catchIfThrowedErrorIn(() => {
+            if (!imgFile) throw new Error("Invalid file!");
+            if (!imgFile.type.match("image/"))
+                throw new Error("Only image files allowed!");
+        });
+
+        // Stop execution
+        if (didThrowError) return;
+
+        // Load Image and fill canvas
+        if (imgLoader) {
+            imgLoader.createImageElementFromFile(imgFile!, onImageLoad);
+            return;
+        }
+        imgLoader = new ImageLoader();
+        imgLoader.createImageElementFromFile(imgFile!, onImageLoad);
+    });
+
+    imgLoaderTrigger!.addEventListener("click", (_) => {
+        imgLoaderContainer!.click();
+    });
+
+    downloadBtn!.addEventListener("click", () => {
+        if (canvas.height == 0 || canvas.width == 0) return;
+        let filename = prompt("Name of the file", `${imgFile.name}`);
+        if (!filename) return;
+        link.download = `${filename}`;
+        link.href = canvas.toDataURL(imgFile.type, 1);
+        link.click();
+    });
+
+    // Setting the interface used to select which filter to apply
+    let btn: HTMLElement;
+    let docFragment = new DocumentFragment();
+    filterButton!.innerText = "Original";
+    btn = btn = document.createElement("button");
+    btn.innerText = "original";
+    btn.dataset.filterName = "original";
+    btn.addEventListener("click", (_) => {
+        canvasController.resetCanvasToOriginalImage();
+        filterButton!.innerText = "Original";
+        filterOptions!.classList.remove("visible");
+    });
+    docFragment.appendChild(btn);
+    filters.forEach((_, key) => {
+        btn = document.createElement("button");
+        btn.innerText = key;
+        btn.dataset.filterName = key;
+        btn.addEventListener("click", (ev: Event) => {
+            let trigger = ev.currentTarget as HTMLElement;
+            // If the canvas has a 0 size, it means no image
+            // has been loaded, so, it should not try to apply
+            // the filter
+            if (canvas.width == 0 && canvas.height == 0) return;
+            console.log(trigger.dataset.filterName);
+
+            switch (trigger.dataset.filterName as FilterNames) {
+                case "grayscale":
+                    canvasController.applyFilter(filters.get("grayscale")!);
+                    filterButton!.innerText = "Grayscale";
+                    break;
+                case "sepia":
+                    canvasController.applyFilter(filters.get("sepia")!);
+                    filterButton!.innerText = "Sepia";
+                    break;
+                case "threshold":
+                    canvasController.applyFilter(filters.get("threshold")!);
+                    filterButton!.innerText = "Threshold";
+                    break;
+                case "red":
+                    canvasController.applyFilter(filters.get("red")!);
+                    filterButton!.innerText = "Full Red";
+                    break;
+                case "green":
+                    canvasController.applyFilter(filters.get("green")!);
+                    filterButton!.innerText = "Full Green";
+                    break;
+                case "blue":
+                    canvasController.applyFilter(filters.get("blue")!);
+                    filterButton!.innerText = "Full Blue";
+                    break;
+                case "desaturate":
+                    canvasController.applyFilter(filters.get("desaturate")!);
+                    filterButton!.innerText = "Desaturate";
+                    break;
+                case "negative":
+                    canvasController.applyFilter(filters.get("negative")!);
+                    filterButton!.innerText = "Negative";
+                    break;
+                case "red&green":
+                    canvasController.applyFilter(filters.get("red&green")!);
+                    filterButton!.innerText = "Red & Green";
+                    break;
+                case "red&blue":
+                    canvasController.applyFilter(filters.get("red&blue")!);
+                    filterButton!.innerText = "Red & Blue";
+                    break;
+                case "green&blue":
+                    canvasController.applyFilter(filters.get("green&blue")!);
+                    filterButton!.innerText = "Green & Blue";
+                    break;
+            }
+
+            filterOptions!.classList.remove("visible");
+        });
+        docFragment.appendChild(btn);
+    });
+
+    filterOptions!.appendChild(docFragment);
+
+    filterButton!.addEventListener("click", (_) => {
+        filterOptions!.classList.add("visible");
+    });
+});
