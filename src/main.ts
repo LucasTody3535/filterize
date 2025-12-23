@@ -193,6 +193,7 @@ window.addEventListener("DOMContentLoaded", (_) => {
     filterOptions!.appendChild(docFragment);
 
     filterButton!.addEventListener("click", (_) => {
+        if (canvas.width == 0 && canvas.height == 0) return;
         filterOptions!.classList.add("visible");
     });
 });
