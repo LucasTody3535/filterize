@@ -94,6 +94,10 @@ window.addEventListener("DOMContentLoaded", (_) => {
         }
         imgLoader = new ImageLoader();
         imgLoader.createImageElementFromFile(imgFile!, onImageLoad);
+        filterButton!.classList.remove("disabled-button");
+        downloadBtn!.classList.remove("disabled-button");
+        filterButton!.classList.add("clickable-button");
+        downloadBtn!.classList.add("clickable-button");
     });
 
     imgLoaderTrigger!.addEventListener("click", (_) => {

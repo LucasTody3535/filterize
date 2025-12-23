@@ -49,6 +49,17 @@ body * {
     top: 20px;
 }
 
+.disabled-button {
+    position: fixed;
+    width: 150px;
+    height: 50px;
+    color: hsl(0, 0%, 35%) !important;
+    border: 1px solid;
+    border-color: hsl(0, 0%, 35%) !important;
+    border-radius: 10px;
+    background: white;
+}
+
 #img-loader-container {
     display: none;
 }
