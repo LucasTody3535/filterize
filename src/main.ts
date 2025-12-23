@@ -39,6 +39,7 @@ type FilterNames =
     | "red&blue"
     | "green&blue";
 const filters = new Map<FilterNames, IFilter>();
+const translation = new Map<FilterNames, string>();
 
 let context: CanvasRenderingContext2D | undefined;
 let imgLoader: ImageLoader | undefined;
@@ -71,6 +72,18 @@ window.addEventListener("DOMContentLoaded", (_) => {
     filters.set("red&green", new RedAndGreenFilter());
     filters.set("red&blue", new RedAndBlueFilter());
     filters.set("green&blue", new GreenAndBlueFilter());
+
+    translation.set("grayscale", "Cinza");
+    translation.set("sepia", "Sépia");
+    translation.set("threshold", "Limiar");
+    translation.set("red", "Vermelho");
+    translation.set("green", "Verde");
+    translation.set("blue", "Azul");
+    translation.set("desaturate", "Desaturado");
+    translation.set("negative", "Negativo");
+    translation.set("red&green", "Vermelho & Verde");
+    translation.set("red&blue", "Vermelho & Azul");
+    translation.set("green&blue", "Verde & Azul");
 
     // Configure image loader
     imgLoaderContainer!.addEventListener("change", (_) => {
@@ -118,7 +131,7 @@ window.addEventListener("DOMContentLoaded", (_) => {
     let docFragment = new DocumentFragment();
     filterButton!.innerText = "Original";
     btn = btn = document.createElement("button");
-    btn.innerText = "original";
+    btn.innerText = "Original";
     btn.dataset.filterName = "original";
     btn.addEventListener("click", (_) => {
         canvasController.resetCanvasToOriginalImage();
@@ -128,7 +141,7 @@ window.addEventListener("DOMContentLoaded", (_) => {
     docFragment.appendChild(btn);
     filters.forEach((_, key) => {
         btn = document.createElement("button");
-        btn.innerText = key;
+        btn.innerText = translation.get(key)!;
         btn.dataset.filterName = key;
         btn.addEventListener("click", (ev: Event) => {
             let trigger = ev.currentTarget as HTMLElement;
@@ -141,47 +154,47 @@ window.addEventListener("DOMContentLoaded", (_) => {
             switch (trigger.dataset.filterName as FilterNames) {
                 case "grayscale":
                     canvasController.applyFilter(filters.get("grayscale")!);
-                    filterButton!.innerText = "Grayscale";
+                    filterButton!.innerText = translation.get("grayscale")!;
                     break;
                 case "sepia":
                     canvasController.applyFilter(filters.get("sepia")!);
-                    filterButton!.innerText = "Sepia";
+                    filterButton!.innerText = translation.get("sepia")!;
                     break;
                 case "threshold":
                     canvasController.applyFilter(filters.get("threshold")!);
-                    filterButton!.innerText = "Threshold";
+                    filterButton!.innerText = translation.get("threshold")!;
                     break;
                 case "red":
                     canvasController.applyFilter(filters.get("red")!);
-                    filterButton!.innerText = "Full Red";
+                    filterButton!.innerText = translation.get("red")!;
                     break;
                 case "green":
                     canvasController.applyFilter(filters.get("green")!);
-                    filterButton!.innerText = "Full Green";
+                    filterButton!.innerText = translation.get("green")!;
                     break;
                 case "blue":
                     canvasController.applyFilter(filters.get("blue")!);
-                    filterButton!.innerText = "Full Blue";
+                    filterButton!.innerText = translation.get("blue")!;
                     break;
                 case "desaturate":
                     canvasController.applyFilter(filters.get("desaturate")!);
-                    filterButton!.innerText = "Desaturate";
+                    filterButton!.innerText = translation.get("desaturate")!;
                     break;
                 case "negative":
                     canvasController.applyFilter(filters.get("negative")!);
-                    filterButton!.innerText = "Negative";
+                    filterButton!.innerText = translation.get("negative")!;
                     break;
                 case "red&green":
                     canvasController.applyFilter(filters.get("red&green")!);
-                    filterButton!.innerText = "Red & Green";
+                    filterButton!.innerText = translation.get("red&green")!;
                     break;
                 case "red&blue":
                     canvasController.applyFilter(filters.get("red&blue")!);
-                    filterButton!.innerText = "Red & Blue";
+                    filterButton!.innerText = translation.get("red&blue")!;
                     break;
                 case "green&blue":
                     canvasController.applyFilter(filters.get("green&blue")!);
-                    filterButton!.innerText = "Green & Blue";
+                    filterButton!.innerText = translation.get("green&blue")!;
                     break;
             }
 
