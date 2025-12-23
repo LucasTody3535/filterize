@@ -35,17 +35,17 @@ body * {
 }
 
 #img-loader-trigger {
-    right: 2%;
+    right: 26%;
     top: 20px;
 }
 
 #img-downloader {
-    right: 14%;
+    right: 2%;
     top: 20px;
 }
 
 #filter-button {
-    right: 26%;
+    right: 14%;
     top: 20px;
 }
 
@@ -58,7 +58,7 @@ body * {
     width: 300px;
     display: none;
 
-    right: calc(15% + 75px);
+    right: calc(15% - 85px);
     top: 80px;
 
     position: fixed;
