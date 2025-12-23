@@ -74,7 +74,6 @@ body * {
 
     position: fixed;
     overflow-y: scroll;
-    scrollbar-width: none;
 
     background: white;
     border-radius: 10px;
