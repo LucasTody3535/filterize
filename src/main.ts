@@ -14,6 +14,7 @@ import { ErrorUtils } from "./utils/ErrorUtils";
 import { RedAndGreenFilter } from "./core/filters/component-selection/RedAndGreenFilter";
 import { RedAndBlueFilter } from "./core/filters/component-selection/RedAndBlueFilter";
 import { GreenAndBlueFilter } from "./core/filters/component-selection/GreenAndBlueFilter";
+import type { FilterNames } from "./types";
 
 const imgLoaderTrigger = document.getElementById("img-loader-trigger");
 const imgLoaderContainer = document.getElementById(
@@ -26,18 +27,6 @@ const filterOptions = document.getElementById("filter-options");
 const downloadBtn = document.getElementById("img-downloader");
 const link = document.createElement("a");
 
-type FilterNames =
-    | "grayscale"
-    | "sepia"
-    | "threshold"
-    | "red"
-    | "blue"
-    | "green"
-    | "desaturate"
-    | "negative"
-    | "red&green"
-    | "red&blue"
-    | "green&blue";
 const filters = new Map<FilterNames, IFilter>();
 const translation = new Map<FilterNames, string>();
 
