@@ -35,18 +35,18 @@ body * {
 }
 
 #img-loader-trigger {
-    right: 26%;
-    top: 20px;
-}
-
-#img-downloader {
     right: 2%;
     top: 20px;
 }
 
 #filter-button {
-    right: 14%;
-    top: 20px;
+    right: 2%;
+    top: 80px;
+}
+
+#img-downloader {
+    right: 2%;
+    top: 140px;
 }
 
 .disabled-button {
@@ -69,7 +69,7 @@ body * {
     width: 300px;
     display: none;
 
-    right: calc(15% - 85px);
+    right: 14%;
     top: 80px;
 
     position: fixed;
