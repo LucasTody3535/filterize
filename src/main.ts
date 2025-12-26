@@ -15,6 +15,7 @@ import { RedAndGreenFilter } from "./core/filters/component-selection/RedAndGree
 import { RedAndBlueFilter } from "./core/filters/component-selection/RedAndBlueFilter";
 import { GreenAndBlueFilter } from "./core/filters/component-selection/GreenAndBlueFilter";
 import type { FilterNames } from "./types";
+import { filtersNamesTranslations, uiButtonsTranslation } from "./translations";
 
 const imgLoaderTrigger = document.getElementById("img-loader-trigger");
 const imgLoaderContainer = document.getElementById(
@@ -27,8 +28,11 @@ const filterOptions = document.getElementById("filter-options");
 const downloadBtn = document.getElementById("img-downloader");
 const link = document.createElement("a");
 
+imgLoaderTrigger!.innerText = uiButtonsTranslation.get("upload") as string;
+filterButton!.innerText = uiButtonsTranslation.get("filter") as string;
+downloadBtn!.innerText = uiButtonsTranslation.get("download") as string;
+
 const filters = new Map<FilterNames, IFilter>();
-const translation = new Map<FilterNames, string>();
 
 let context: CanvasRenderingContext2D | undefined;
 let imgLoader: ImageLoader | undefined;
@@ -61,18 +65,6 @@ window.addEventListener("DOMContentLoaded", (_) => {
     filters.set("red&green", new RedAndGreenFilter());
     filters.set("red&blue", new RedAndBlueFilter());
     filters.set("green&blue", new GreenAndBlueFilter());
-
-    translation.set("grayscale", "Cinza");
-    translation.set("sepia", "Sépia");
-    translation.set("threshold", "Limiar");
-    translation.set("red", "Vermelho");
-    translation.set("green", "Verde");
-    translation.set("blue", "Azul");
-    translation.set("desaturate", "Desaturado");
-    translation.set("negative", "Negativo");
-    translation.set("red&green", "Vermelho & Verde");
-    translation.set("red&blue", "Vermelho & Azul");
-    translation.set("green&blue", "Verde & Azul");
 
     // Configure image loader
     imgLoaderContainer!.addEventListener("change", (_) => {
@@ -118,19 +110,18 @@ window.addEventListener("DOMContentLoaded", (_) => {
     // Setting the interface used to select which filter to apply
     let btn: HTMLElement;
     let docFragment = new DocumentFragment();
-    filterButton!.innerText = "Original";
     btn = btn = document.createElement("button");
-    btn.innerText = "Original";
+    btn.innerText = filtersNamesTranslations.get("original") as string;
     btn.dataset.filterName = "original";
     btn.addEventListener("click", (_) => {
         canvasController.resetCanvasToOriginalImage();
-        filterButton!.innerText = "Original";
+        filterButton!.innerText = uiButtonsTranslation.get("filter") as string;
         filterOptions!.classList.remove("visible");
     });
     docFragment.appendChild(btn);
     filters.forEach((_, key) => {
         btn = document.createElement("button");
-        btn.innerText = translation.get(key)!;
+        btn.innerText = filtersNamesTranslations.get(key)!;
         btn.dataset.filterName = key;
         btn.addEventListener("click", (ev: Event) => {
             let trigger = ev.currentTarget as HTMLElement;
@@ -143,47 +134,58 @@ window.addEventListener("DOMContentLoaded", (_) => {
             switch (trigger.dataset.filterName as FilterNames) {
                 case "grayscale":
                     canvasController.applyFilter(filters.get("grayscale")!);
-                    filterButton!.innerText = translation.get("grayscale")!;
+                    filterButton!.innerText =
+                        filtersNamesTranslations.get("grayscale")!;
                     break;
                 case "sepia":
                     canvasController.applyFilter(filters.get("sepia")!);
-                    filterButton!.innerText = translation.get("sepia")!;
+                    filterButton!.innerText =
+                        filtersNamesTranslations.get("sepia")!;
                     break;
                 case "threshold":
                     canvasController.applyFilter(filters.get("threshold")!);
-                    filterButton!.innerText = translation.get("threshold")!;
+                    filterButton!.innerText =
+                        filtersNamesTranslations.get("threshold")!;
                     break;
                 case "red":
                     canvasController.applyFilter(filters.get("red")!);
-                    filterButton!.innerText = translation.get("red")!;
+                    filterButton!.innerText =
+                        filtersNamesTranslations.get("red")!;
                     break;
                 case "green":
                     canvasController.applyFilter(filters.get("green")!);
-                    filterButton!.innerText = translation.get("green")!;
+                    filterButton!.innerText =
+                        filtersNamesTranslations.get("green")!;
                     break;
                 case "blue":
                     canvasController.applyFilter(filters.get("blue")!);
-                    filterButton!.innerText = translation.get("blue")!;
+                    filterButton!.innerText =
+                        filtersNamesTranslations.get("blue")!;
                     break;
                 case "desaturate":
                     canvasController.applyFilter(filters.get("desaturate")!);
-                    filterButton!.innerText = translation.get("desaturate")!;
+                    filterButton!.innerText =
+                        filtersNamesTranslations.get("desaturate")!;
                     break;
                 case "negative":
                     canvasController.applyFilter(filters.get("negative")!);
-                    filterButton!.innerText = translation.get("negative")!;
+                    filterButton!.innerText =
+                        filtersNamesTranslations.get("negative")!;
                     break;
                 case "red&green":
                     canvasController.applyFilter(filters.get("red&green")!);
-                    filterButton!.innerText = translation.get("red&green")!;
+                    filterButton!.innerText =
+                        filtersNamesTranslations.get("red&green")!;
                     break;
                 case "red&blue":
                     canvasController.applyFilter(filters.get("red&blue")!);
-                    filterButton!.innerText = translation.get("red&blue")!;
+                    filterButton!.innerText =
+                        filtersNamesTranslations.get("red&blue")!;
                     break;
                 case "green&blue":
                     canvasController.applyFilter(filters.get("green&blue")!);
-                    filterButton!.innerText = translation.get("green&blue")!;
+                    filterButton!.innerText =
+                        filtersNamesTranslations.get("green&blue")!;
                     break;
             }
 
