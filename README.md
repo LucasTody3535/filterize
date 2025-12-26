@@ -7,18 +7,21 @@ encoding.
 
 You can execute this project by running `npm run dev` inside of the project's folder after the download. You can then open it in a browser.
 
-The browser UI offers three options:
+The browser UI offers three button options:
 
 #### Original
-You can click this button and change the effect applied to the image, once selected, the button will have the name of the filter applied.
+You can click this button and change the effect applied to the image **after you upload it**, once selected, the button will have the name of the filter applied.
 
 #### Download
-This button you can use to download your image. It will be downloaded in the same encoding as when it was submitted, for example, if you load a png image, it stays a png when you download it.
+This button you can use to download your image **after you upload it**. It will be downloaded in the same encoding as when it was submitted, for example, if you load a png image, it stays a png when you download it.
 
 #### Load Image
 Where you select any supported image format to load.
 
 > Note that must be an image supported in browsers.
+
+#### Source Code
+Use this option when you want to see the source code of a specific filter.
 
 ## Sources
 
