@@ -14,4 +14,4 @@ export type FilterNames =
 
 export type SupportedLanguages = "pt-BR";
 
-export type UIButtons = "upload" | "filter" | "download";
+export type UIButtons = "upload" | "filter" | "download" | "source";

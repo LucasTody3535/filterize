@@ -22,6 +22,7 @@ switch (language) {
         uiButtonsTranslation.set("upload", "Carregar Imagem");
         uiButtonsTranslation.set("filter", "Original");
         uiButtonsTranslation.set("download", "Salvar");
+        uiButtonsTranslation.set("source", "Código Fonte");
         break;
     default:
         filtersNamesTranslations.set("original", "Original");
@@ -40,5 +41,6 @@ switch (language) {
         uiButtonsTranslation.set("upload", "Load Image");
         uiButtonsTranslation.set("filter", "Original");
         uiButtonsTranslation.set("download", "Download");
+        uiButtonsTranslation.set("source", "Source Code");
         break;
 }

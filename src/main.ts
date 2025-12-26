@@ -5,6 +5,7 @@ import { ErrorUtils } from "./utils/ErrorUtils";
 import type { FilterNames } from "./types";
 import { filtersNamesTranslations, uiButtonsTranslation } from "./translations";
 import { filters } from "./filters";
+import { codesExplanation } from "./code-samples";
 
 const imgLoaderTrigger = document.getElementById("img-loader-trigger");
 const imgLoaderContainer = document.getElementById(
@@ -13,6 +14,8 @@ const imgLoaderContainer = document.getElementById(
 const canvas = document.getElementById("img-container") as HTMLCanvasElement;
 const filterButton = document.getElementById("filter-button");
 const filterOptions = document.getElementById("filter-options");
+const sourceCodeButton = document.getElementById("src-code");
+const code = document.getElementById("code");
 
 const downloadBtn = document.getElementById("img-downloader");
 const link = document.createElement("a");
@@ -20,6 +23,7 @@ const link = document.createElement("a");
 imgLoaderTrigger!.innerText = uiButtonsTranslation.get("upload") as string;
 filterButton!.innerText = uiButtonsTranslation.get("filter") as string;
 downloadBtn!.innerText = uiButtonsTranslation.get("download") as string;
+sourceCodeButton!.innerText = uiButtonsTranslation.get("source") as string;
 
 let context: CanvasRenderingContext2D | undefined;
 let imgLoader: ImageLoader | undefined;
@@ -93,11 +97,16 @@ window.addEventListener("DOMContentLoaded", (_) => {
             switch (filterName) {
                 case "original":
                     canvasController.resetCanvasToOriginalImage();
+                    sourceCodeButton!.classList.remove("clickable-button");
+                    sourceCodeButton!.classList.add("disabled-button");
                     break;
                 default:
                     canvasController.applyFilter(filters.get(filterName)!);
+                    sourceCodeButton!.classList.remove("disabled-button");
+                    sourceCodeButton!.classList.add("clickable-button");
             }
             filterButton!.innerText = filtersNamesTranslations.get(filterName)!;
+            filterButton!.dataset.filterName = filterName;
             filterOptions!.classList.remove("visible");
         });
         docFragment.appendChild(btn);
@@ -108,5 +117,18 @@ window.addEventListener("DOMContentLoaded", (_) => {
     filterButton!.addEventListener("click", (_) => {
         if (canvas.width == 0 && canvas.height == 0) return;
         filterOptions!.classList.add("visible");
+        code!.classList.remove("visible");
+    });
+
+    sourceCodeButton!.addEventListener("click", (_) => {
+        if (
+            (canvas.width == 0 && canvas.height == 0) ||
+            filterButton!.innerText == filtersNamesTranslations.get("original")
+        )
+            return;
+        let filterName = filterButton!.dataset.filterName as FilterNames;
+        code!.innerText = codesExplanation.get(filterName) || "";
+        code!.classList.toggle("visible");
+        filterOptions!.classList.remove("visible");
     });
 });

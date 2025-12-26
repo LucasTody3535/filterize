@@ -49,6 +49,11 @@ body * {
     top: 140px;
 }
 
+#src-code {
+    right: 2%;
+    top: 200px;
+}
+
 .disabled-button {
     position: fixed;
     width: 150px;
@@ -65,12 +70,23 @@ body * {
 }
 
 #filter-options {
+    top: 80px;
     height: 200px;
     width: 300px;
+}
+
+#code {
+    top: 200px;
+    height: fit-content;
+    max-height: 400px;
+    width: 600px;
+}
+
+#filter-options,
+#code {
     display: none;
 
     right: 14%;
-    top: 80px;
 
     position: fixed;
     overflow-y: scroll;
@@ -81,7 +97,8 @@ body * {
     box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
 }
 
-#filter-options.visible {
+#filter-options.visible,
+#code.visible {
     display: block;
 }
 
